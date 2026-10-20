@@ -30,6 +30,7 @@ yarn-error.log*
 # Uploads & temporary files
 uploads/
 backend/uploads/
+docs/
 *.tsbuildinfo
 .DS_Store
 Thumbs.db
