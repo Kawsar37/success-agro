@@ -7,6 +7,7 @@ import rateLimit from "express-rate-limit";
 import path from "path";
 import os from "os";
 import { env } from "./config/env.js";
+import { connectDB } from "./config/db.js";
 import apiRouter from "./routes/index.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 
@@ -88,6 +89,16 @@ app.get("/api/v1/health", (req: Request, res: Response) => {
     system: "Success Agro Management System API v1",
     time: new Date().toISOString(),
   });
+});
+
+// Ensure MongoDB is connected before handling API requests (vital for Vercel serverless)
+app.use("/api", async (_req, _res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    next(err);
+  }
 });
 
 // Mount Version 1 REST API
