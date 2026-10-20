@@ -24,18 +24,27 @@ const generateToken = (user: IUser): string => {
 
 export const login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const { email, password } = req.body;
+    const identifier = (req.body.phone || req.body.email || req.body.identifier || "").toString().trim();
+    const { password } = req.body;
 
-    if (!email || !password) {
-      throw new ApiError(400, "Please provide email and password");
+    if (!identifier || !password) {
+      throw new ApiError(400, "Please provide phone number or email and password");
     }
 
-    const user = await User.findOne({ email: email.toLowerCase() })
+    const cleanIdentifier = identifier.replace(/[\s-]/g, "");
+    const user = await User.findOne({
+      $or: [
+        { phone: cleanIdentifier },
+        { phone: cleanIdentifier.startsWith("0") ? "+88" + cleanIdentifier : cleanIdentifier },
+        { phone: cleanIdentifier.startsWith("+88") ? cleanIdentifier.slice(3) : cleanIdentifier },
+        { email: identifier.toLowerCase() },
+      ],
+    })
       .select("+password")
       .populate("salesOfficerProfile");
 
     if (!user || !(await user.comparePassword(password))) {
-      throw new ApiError(401, "Invalid email or password");
+      throw new ApiError(401, "Invalid phone number or password");
     }
 
     if (!user.isActive) {

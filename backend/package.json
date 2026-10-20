@@ -8,6 +8,7 @@
     "start": "node dist/server.js",
     "dev": "tsx watch src/server.ts",
     "seed": "tsx src/seeds/seed.ts",
+    "db:reset": "tsx src/seeds/resetDatabase.ts",
     "test": "vitest run"
   },
   "dependencies": {

@@ -31,6 +31,8 @@ yarn-error.log*
 uploads/
 backend/uploads/
 docs/
+backend/src/seeds/
+seeds/
 *.tsbuildinfo
 .DS_Store
 Thumbs.db
