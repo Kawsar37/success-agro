@@ -49,15 +49,15 @@ export default function DashboardPage() {
         {/* Top Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Executive Dashboard</h1>
-            <p className="text-sm text-slate-500 mt-0.5">
+            <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">Executive Dashboard</h1>
+            <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
               Live operations & financial health across Bangladesh
             </p>
           </div>
-          <div className="flex gap-3">
+          <div className="flex gap-3 w-full sm:w-auto">
             <Link
               href="/orders"
-              className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-sm transition-colors flex items-center gap-2"
+              className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-sm transition-colors flex items-center justify-center gap-2"
             >
               <ShoppingCart className="w-4 h-4" />
               <span>Review Sales Orders</span>
@@ -66,7 +66,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Financial & Operational KPI Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
           <StatCard
             title="Monthly Sales (Turnover)"
             value={formatBDT(metrics.monthlySales || 0)}
@@ -98,8 +98,8 @@ export default function DashboardPage() {
         </div>
 
         {/* Operational Highlights */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          <div className="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
+          <div className="bg-white p-4 sm:p-5 rounded-xl border border-slate-200/80 shadow-sm flex items-center justify-between">
             <div>
               <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Pending Orders</p>
               <p className="text-xl font-bold text-slate-900 mt-1">{metrics.pendingOrders || 0}</p>
@@ -110,7 +110,7 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <div className="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+          <div className="bg-white p-4 sm:p-5 rounded-xl border border-slate-200/80 shadow-sm flex items-center justify-between">
             <div>
               <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Dealers Network</p>
               <p className="text-xl font-bold text-slate-900 mt-1">{metrics.activeDealers || 0}</p>
@@ -121,7 +121,7 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <div className="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+          <div className="bg-white p-4 sm:p-5 rounded-xl border border-slate-200/80 shadow-sm flex items-center justify-between">
             <div>
               <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Customer Ledger</p>
               <p className="text-xl font-bold text-slate-900 mt-1">Real-time</p>
@@ -137,14 +137,14 @@ export default function DashboardPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Recent Orders / Invoices */}
           <div className="lg:col-span-2 bg-white rounded-xl border border-slate-200/80 shadow-sm overflow-hidden">
-            <div className="p-5 border-b border-slate-100 flex items-center justify-between">
-              <h3 className="text-base font-bold text-slate-800">Recent Sales & Invoices</h3>
+            <div className="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between">
+              <h3 className="text-sm sm:text-base font-bold text-slate-800">Recent Sales & Invoices</h3>
               <Link href="/orders" className="text-xs font-semibold text-emerald-600 hover:text-emerald-700">
                 View Orders →
               </Link>
             </div>
             <div className="overflow-x-auto">
-              <table className="w-full text-xs text-left">
+              <table className="w-full text-xs text-left min-w-[520px]">
                 <thead className="bg-slate-50 text-slate-500 font-medium uppercase border-b border-slate-100">
                   <tr>
                     <th className="py-3 px-4">Invoice #</th>

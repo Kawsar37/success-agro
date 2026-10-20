@@ -32,7 +32,7 @@ export default function ExpensesPage() {
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-xs text-left">
+              <table className="w-full text-xs text-left min-w-[600px]">
                 <thead className="bg-slate-50 text-slate-500 uppercase font-semibold border-b border-slate-100">
                   <tr>
                     <th className="py-3.5 px-4">Expense #</th>

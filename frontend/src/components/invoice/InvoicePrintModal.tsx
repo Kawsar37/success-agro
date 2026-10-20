@@ -36,18 +36,18 @@ export const InvoicePrintModal: React.FC<InvoicePrintModalProps> = ({
         </div>
 
         {/* Printable Invoice Document */}
-        <div className="border border-slate-200 rounded-lg p-8 bg-white text-slate-800 print:border-0 print:p-0">
+        <div className="border border-slate-200 rounded-lg p-3.5 sm:p-8 bg-white text-slate-800 print:border-0 print:p-0">
           {/* Header */}
-          <div className="flex justify-between items-start border-b border-slate-200 pb-6">
+          <div className="flex flex-col sm:flex-row justify-between items-start gap-4 border-b border-slate-200 pb-6">
             <div>
-              <h1 className="text-2xl font-bold text-slate-900 tracking-tight">SUCCESS AGRO LIMITED</h1>
+              <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">SUCCESS AGRO LIMITED</h1>
               <p className="text-xs text-slate-500 mt-1">
                 Plot 42, BSCIC Industrial Estate, Bogura, Bangladesh
               </p>
               <p className="text-xs text-slate-500">Phone: +8801712345678 | Email: billing@successagro.com.bd</p>
               <p className="text-xs font-semibold text-emerald-700 mt-1">BIN: 123456789-0101 (VAT Registered)</p>
             </div>
-            <div className="text-right">
+            <div className="text-left sm:text-right">
               <span className="inline-block px-3 py-1 bg-emerald-50 text-emerald-800 font-bold text-sm rounded border border-emerald-200">
                 COMMERCIAL INVOICE
               </span>
@@ -58,7 +58,7 @@ export const InvoicePrintModal: React.FC<InvoicePrintModalProps> = ({
           </div>
 
           {/* Billed To */}
-          <div className="grid grid-cols-2 gap-6 py-6 border-b border-slate-200 text-xs">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 py-6 border-b border-slate-200 text-xs">
             <div>
               <p className="font-semibold text-slate-500 uppercase tracking-wider mb-1">BILLED TO (DEALER):</p>
               <h4 className="font-bold text-slate-900 text-sm">{invoice.dealer?.businessName}</h4>
@@ -66,7 +66,7 @@ export const InvoicePrintModal: React.FC<InvoicePrintModalProps> = ({
               <p className="text-slate-600">{invoice.dealer?.address}</p>
               <p className="text-slate-600">Phone: {invoice.dealer?.phone}</p>
             </div>
-            <div className="text-right">
+            <div className="text-left sm:text-right">
               <p className="font-semibold text-slate-500 uppercase tracking-wider mb-1">DISPATCH WAREHOUSE:</p>
               <h4 className="font-bold text-slate-900 text-sm">{invoice.warehouse?.name}</h4>
               <p className="text-slate-600 mt-0.5">Assigned Officer: {invoice.salesOfficer?.name || "Direct"}</p>
@@ -75,7 +75,8 @@ export const InvoicePrintModal: React.FC<InvoicePrintModalProps> = ({
           </div>
 
           {/* Items Table */}
-          <table className="w-full text-xs mt-6">
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs mt-6 min-w-[500px]">
             <thead>
               <tr className="border-b border-slate-200 bg-slate-50 text-slate-700">
                 <th className="py-2.5 px-3 text-left font-semibold">#</th>
@@ -100,6 +101,7 @@ export const InvoicePrintModal: React.FC<InvoicePrintModalProps> = ({
               ))}
             </tbody>
           </table>
+          </div>
 
           {/* Totals */}
           <div className="flex justify-end pt-6 border-t border-slate-200 mt-4 text-xs">

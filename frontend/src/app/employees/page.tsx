@@ -174,17 +174,17 @@ export default function EmployeesPage() {
           </div>
 
           {isAdmin && (
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
               <button
                 onClick={() => setIsStaffModalOpen(true)}
-                className="bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-2 rounded-lg text-xs font-bold shadow-sm transition-colors flex items-center gap-1.5"
+                className="w-full sm:w-auto justify-center bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-2 rounded-lg text-xs font-bold shadow-sm transition-colors flex items-center gap-1.5 whitespace-nowrap"
               >
                 <Plus className="w-4 h-4" />
                 <span>+ Add Staff with Salary</span>
               </button>
               <button
                 onClick={() => handleOpenAddUser("SalesOfficer")}
-                className="bg-slate-800 hover:bg-slate-900 text-white px-3.5 py-2 rounded-lg text-xs font-semibold shadow-sm transition-colors flex items-center gap-1.5"
+                className="w-full sm:w-auto justify-center bg-slate-800 hover:bg-slate-900 text-white px-3.5 py-2 rounded-lg text-xs font-semibold shadow-sm transition-colors flex items-center gap-1.5 whitespace-nowrap"
               >
                 <UserPlus className="w-4 h-4" />
                 <span>+ Add Sales Officer</span>
@@ -194,10 +194,10 @@ export default function EmployeesPage() {
         </div>
 
         {/* Tab Switcher */}
-        <div className="flex gap-2 border-b border-slate-200">
+        <div className="flex gap-2 border-b border-slate-200 overflow-x-auto no-scrollbar flex-nowrap pb-1">
           <button
             onClick={() => setActiveTab("staff")}
-            className={`pb-3 px-4 text-sm font-semibold border-b-2 transition-colors ${
+            className={`pb-3 px-4 text-sm font-semibold border-b-2 transition-colors shrink-0 whitespace-nowrap ${
               activeTab === "staff"
                 ? "border-emerald-600 text-emerald-700 font-bold"
                 : "border-transparent text-slate-500 hover:text-slate-700"
@@ -207,7 +207,7 @@ export default function EmployeesPage() {
           </button>
           <button
             onClick={() => setActiveTab("users")}
-            className={`pb-3 px-4 text-sm font-semibold border-b-2 transition-colors ${
+            className={`pb-3 px-4 text-sm font-semibold border-b-2 transition-colors shrink-0 whitespace-nowrap ${
               activeTab === "users"
                 ? "border-emerald-600 text-emerald-700 font-bold"
                 : "border-transparent text-slate-500 hover:text-slate-700"
@@ -217,7 +217,7 @@ export default function EmployeesPage() {
           </button>
           <button
             onClick={() => setActiveTab("payroll")}
-            className={`pb-3 px-4 text-sm font-semibold border-b-2 transition-colors ${
+            className={`pb-3 px-4 text-sm font-semibold border-b-2 transition-colors shrink-0 whitespace-nowrap ${
               activeTab === "payroll"
                 ? "border-emerald-600 text-emerald-700 font-bold"
                 : "border-transparent text-slate-500 hover:text-slate-700"
@@ -251,7 +251,7 @@ export default function EmployeesPage() {
               </div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full text-xs text-left">
+                <table className="w-full text-xs text-left min-w-[650px]">
                   <thead className="bg-slate-50 text-slate-500 uppercase font-semibold border-b border-slate-100">
                     <tr>
                       <th className="py-3.5 px-4">EMP ID</th>
@@ -301,7 +301,7 @@ export default function EmployeesPage() {
               </div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full text-xs text-left">
+                <table className="w-full text-xs text-left min-w-[650px]">
                   <thead className="bg-slate-50 text-slate-500 uppercase font-semibold border-b border-slate-100">
                     <tr>
                       <th className="py-3.5 px-4">Name</th>
@@ -392,7 +392,7 @@ export default function EmployeesPage() {
               </div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full text-xs text-left">
+                <table className="w-full text-xs text-left min-w-[650px]">
                   <thead className="bg-slate-50 text-slate-500 uppercase font-semibold border-b border-slate-100">
                     <tr>
                       <th className="py-3.5 px-4">Payment #</th>

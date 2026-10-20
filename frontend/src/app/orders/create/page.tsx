@@ -216,7 +216,7 @@ export default function CreateOrderPage() {
 
               {/* Items List */}
               <div className="overflow-x-auto">
-                <table className="w-full text-xs text-left">
+                <table className="w-full text-xs text-left min-w-[550px]">
                   <thead className="bg-slate-50 text-slate-500 uppercase border-b border-slate-100 font-semibold">
                     <tr>
                       <th className="py-2.5 px-3">Product</th>

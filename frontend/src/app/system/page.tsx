@@ -110,7 +110,7 @@ export default function SystemPage() {
           {isAdmin && (
             <button
               onClick={openEditModal}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm font-semibold shadow-sm transition-all"
+              className="w-full sm:w-auto justify-center inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm font-semibold shadow-sm transition-all"
             >
               <Edit2 className="w-4 h-4" />
               <span>Edit Company Information</span>
@@ -242,7 +242,7 @@ export default function SystemPage() {
               </div>
             ) : (
               <div className="overflow-x-auto flex-1 max-h-[520px]">
-                <table className="w-full text-xs text-left">
+                <table className="w-full text-xs text-left min-w-[500px]">
                   <thead className="bg-slate-50 text-slate-500 uppercase font-semibold border-b border-slate-100 sticky top-0">
                     <tr>
                       <th className="py-2.5 px-4">Timestamp</th>

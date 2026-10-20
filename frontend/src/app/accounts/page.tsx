@@ -218,10 +218,10 @@ export default function AccountsPage() {
           </div>
 
           {isAdmin && (
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
               <button
                 onClick={() => setIsAdjustmentOpen(true)}
-                className="bg-slate-800 hover:bg-slate-900 text-white px-3.5 py-2 rounded-lg text-xs font-semibold shadow-sm transition-colors flex items-center gap-1.5"
+                className="flex-1 sm:flex-none justify-center bg-slate-800 hover:bg-slate-900 text-white px-3.5 py-2 rounded-lg text-xs font-semibold shadow-sm transition-colors flex items-center gap-1.5 whitespace-nowrap"
               >
                 <ArrowDownLeft className="w-4 h-4 text-emerald-400" />
                 <span>Manual Cash In / Out</span>
@@ -229,7 +229,7 @@ export default function AccountsPage() {
 
               <button
                 onClick={() => setIsTransferOpen(true)}
-                className="bg-indigo-600 hover:bg-indigo-700 text-white px-3.5 py-2 rounded-lg text-xs font-semibold shadow-sm transition-colors flex items-center gap-1.5"
+                className="flex-1 sm:flex-none justify-center bg-indigo-600 hover:bg-indigo-700 text-white px-3.5 py-2 rounded-lg text-xs font-semibold shadow-sm transition-colors flex items-center gap-1.5 whitespace-nowrap"
               >
                 <ArrowRightLeft className="w-4 h-4" />
                 <span>Transfer Funds</span>
@@ -237,7 +237,7 @@ export default function AccountsPage() {
 
               <button
                 onClick={() => setIsAddAccountOpen(true)}
-                className="bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-2 rounded-lg text-xs font-semibold shadow-sm transition-colors flex items-center gap-1.5"
+                className="w-full sm:w-auto justify-center bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-2 rounded-lg text-xs font-semibold shadow-sm transition-colors flex items-center gap-1.5 whitespace-nowrap"
               >
                 <Plus className="w-4 h-4" />
                 <span>+ Add Account</span>
@@ -282,7 +282,7 @@ export default function AccountsPage() {
             <LoadingSpinner size="lg" />
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
             {accounts?.map((acc: any) => {
               const isBank = acc.type === "Bank";
               const isMobile = acc.type === "MobileBanking";
@@ -365,7 +365,7 @@ export default function AccountsPage() {
             </div>
 
             <div className="overflow-x-auto">
-              <table className="w-full text-xs text-left">
+              <table className="w-full text-xs text-left min-w-[600px]">
                 <thead className="bg-slate-50 text-slate-500 uppercase font-semibold border-b border-slate-100">
                   <tr>
                     <th className="py-2.5 px-3">Transfer #</th>
@@ -395,8 +395,8 @@ export default function AccountsPage() {
 
         {/* MODAL: ADD ACCOUNT */}
         {isAddAccountOpen && (
-          <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
-            <div className="bg-white rounded-xl shadow-xl border border-slate-200 w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+          <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-2.5 sm:p-4">
+            <div className="bg-white rounded-xl shadow-xl border border-slate-200 w-full max-w-[calc(100vw-1.5rem)] sm:max-w-md max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in-95 duration-150">
               <div className="p-4 bg-slate-50 border-b border-slate-100 flex justify-between items-center">
                 <h3 className="font-bold text-slate-900 text-sm">Create New Financial Account</h3>
                 <button onClick={() => setIsAddAccountOpen(false)} className="text-slate-400 hover:text-slate-600 p-1">
@@ -515,8 +515,8 @@ export default function AccountsPage() {
 
         {/* MODAL: MANUAL ADJUSTMENT (CASH IN / CASH OUT) */}
         {isAdjustmentOpen && (
-          <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
-            <div className="bg-white rounded-xl shadow-xl border border-slate-200 w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+          <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-2.5 sm:p-4">
+            <div className="bg-white rounded-xl shadow-xl border border-slate-200 w-full max-w-[calc(100vw-1.5rem)] sm:max-w-md max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in-95 duration-150">
               <div className="p-4 bg-slate-50 border-b border-slate-100 flex justify-between items-center">
                 <h3 className="font-bold text-slate-900 text-sm">Manual Cash In / Cash Out</h3>
                 <button onClick={() => setIsAdjustmentOpen(false)} className="text-slate-400 hover:text-slate-600 p-1">
@@ -643,8 +643,8 @@ export default function AccountsPage() {
 
         {/* MODAL: TRANSFER FUNDS BETWEEN ACCOUNTS */}
         {isTransferOpen && (
-          <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
-            <div className="bg-white rounded-xl shadow-xl border border-slate-200 w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+          <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-2.5 sm:p-4">
+            <div className="bg-white rounded-xl shadow-xl border border-slate-200 w-full max-w-[calc(100vw-1.5rem)] sm:max-w-md max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in-95 duration-150">
               <div className="p-4 bg-slate-50 border-b border-slate-100 flex justify-between items-center">
                 <h3 className="font-bold text-slate-900 text-sm">Transfer Funds Between Accounts</h3>
                 <button onClick={() => setIsTransferOpen(false)} className="text-slate-400 hover:text-slate-600 p-1">
@@ -774,8 +774,8 @@ export default function AccountsPage() {
 
         {/* MODAL: EDIT ACCOUNT / OVERRIDE BALANCE */}
         {editingAccount && (
-          <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
-            <div className="bg-white rounded-xl shadow-xl border border-slate-200 w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+          <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-2.5 sm:p-4">
+            <div className="bg-white rounded-xl shadow-xl border border-slate-200 w-full max-w-[calc(100vw-1.5rem)] sm:max-w-md max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in-95 duration-150">
               <div className="p-4 bg-slate-50 border-b border-slate-100 flex justify-between items-center">
                 <h3 className="font-bold text-slate-900 text-sm">Edit Account: {editingAccount.name}</h3>
                 <button onClick={() => setEditingAccount(null)} className="text-slate-400 hover:text-slate-600 p-1">

@@ -159,7 +159,7 @@ export default function ProductsPage() {
             </p>
           </div>
 
-          <div className="flex items-center gap-3 w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 w-full sm:w-auto">
             <div className="relative flex-1 sm:w-64">
               <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
               <input
@@ -174,7 +174,7 @@ export default function ProductsPage() {
             {isAdmin && (
               <button
                 onClick={() => setIsAddModalOpen(true)}
-                className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-sm transition-colors flex items-center gap-2 whitespace-nowrap"
+                className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-sm transition-colors flex items-center justify-center gap-2 whitespace-nowrap w-full sm:w-auto"
               >
                 <Plus className="w-4 h-4" />
                 <span>Add Item</span>
@@ -189,7 +189,7 @@ export default function ProductsPage() {
             <LoadingSpinner size="lg" />
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
             {filtered?.map((prod: any) => (
               <div
                 key={prod._id}
@@ -247,8 +247,8 @@ export default function ProductsPage() {
 
         {/* MODAL: ADD PRODUCT ITEM (ADMIN ONLY) */}
         {isAddModalOpen && (
-          <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
-            <div className="bg-white rounded-xl shadow-xl border border-slate-200 w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+          <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-2.5 sm:p-4">
+            <div className="bg-white rounded-xl shadow-xl border border-slate-200 w-full max-w-[calc(100vw-1.5rem)] sm:max-w-md max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in-95 duration-150">
               <div className="p-4 bg-slate-50 border-b border-slate-100 flex justify-between items-center">
                 <div className="flex items-center gap-2">
                   <Package className="w-5 h-5 text-emerald-600" />
@@ -389,8 +389,8 @@ export default function ProductsPage() {
 
         {/* MODAL: SET PRICES & DETAILS (ADMIN ONLY) */}
         {editingProduct && (
-          <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
-            <div className="bg-white rounded-xl shadow-xl border border-slate-200 w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+          <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-2.5 sm:p-4">
+            <div className="bg-white rounded-xl shadow-xl border border-slate-200 w-full max-w-[calc(100vw-1.5rem)] sm:max-w-md max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in-95 duration-150">
               <div className="p-4 bg-slate-50 border-b border-slate-100 flex justify-between items-center">
                 <div>
                   <h3 className="font-bold text-slate-900 text-sm">Set Prices: {editingProduct.name}</h3>

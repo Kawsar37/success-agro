@@ -33,12 +33,12 @@ export default function InventoryPage() {
         </div>
 
         {/* Tab Switcher */}
-        <div className="flex gap-2 border-b border-slate-200">
+        <div className="flex gap-2 border-b border-slate-200 overflow-x-auto no-scrollbar flex-nowrap pb-1">
           <button
             onClick={() => setActiveTab("balances")}
-            className={`pb-3 px-4 text-sm font-semibold border-b-2 transition-colors ${
+            className={`pb-3 px-4 text-sm font-semibold border-b-2 transition-colors shrink-0 whitespace-nowrap ${
               activeTab === "balances"
-                ? "border-emerald-600 text-emerald-700"
+                ? "border-emerald-600 text-emerald-700 font-bold"
                 : "border-transparent text-slate-500 hover:text-slate-700"
             }`}
           >
@@ -46,9 +46,9 @@ export default function InventoryPage() {
           </button>
           <button
             onClick={() => setActiveTab("movements")}
-            className={`pb-3 px-4 text-sm font-semibold border-b-2 transition-colors ${
+            className={`pb-3 px-4 text-sm font-semibold border-b-2 transition-colors shrink-0 whitespace-nowrap ${
               activeTab === "movements"
-                ? "border-emerald-600 text-emerald-700"
+                ? "border-emerald-600 text-emerald-700 font-bold"
                 : "border-transparent text-slate-500 hover:text-slate-700"
             }`}
           >
@@ -65,7 +65,7 @@ export default function InventoryPage() {
               </div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full text-xs text-left">
+                <table className="w-full text-xs text-left min-w-[650px]">
                   <thead className="bg-slate-50 text-slate-500 uppercase font-semibold border-b border-slate-100">
                     <tr>
                       <th className="py-3.5 px-4">Warehouse Depot</th>
@@ -141,7 +141,7 @@ export default function InventoryPage() {
               </div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full text-xs text-left">
+                <table className="w-full text-xs text-left min-w-[700px]">
                   <thead className="bg-slate-50 text-slate-500 uppercase font-semibold border-b border-slate-100">
                     <tr>
                       <th className="py-3.5 px-4">Movement #</th>

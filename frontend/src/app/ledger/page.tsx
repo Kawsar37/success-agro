@@ -250,10 +250,10 @@ function LedgerContent() {
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 w-full sm:w-auto">
             <button
               onClick={() => window.print()}
-              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-lg shadow-sm transition active:scale-95"
+              className="w-full sm:w-auto justify-center inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-lg shadow-sm transition active:scale-95"
             >
               <Printer className="w-4 h-4" />
               <span>Print Ledger Area Only</span>
@@ -262,10 +262,10 @@ function LedgerContent() {
         </div>
 
         {/* Tab Switcher */}
-        <div className="flex gap-2 border-b border-slate-200 print:hidden">
+        <div className="flex gap-2 border-b border-slate-200 print:hidden overflow-x-auto no-scrollbar flex-nowrap pb-1">
           <button
             onClick={() => setActiveTab("customer")}
-            className={`pb-3 px-4 text-sm font-bold border-b-2 transition-colors flex items-center gap-2 ${
+            className={`pb-3 px-4 text-sm font-bold border-b-2 transition-colors flex items-center gap-2 shrink-0 whitespace-nowrap ${
               activeTab === "customer"
                 ? "border-emerald-600 text-emerald-700"
                 : "border-transparent text-slate-500 hover:text-slate-700"
@@ -276,7 +276,7 @@ function LedgerContent() {
           </button>
           <button
             onClick={() => setActiveTab("salesOfficer")}
-            className={`pb-3 px-4 text-sm font-bold border-b-2 transition-colors flex items-center gap-2 ${
+            className={`pb-3 px-4 text-sm font-bold border-b-2 transition-colors flex items-center gap-2 shrink-0 whitespace-nowrap ${
               activeTab === "salesOfficer"
                 ? "border-emerald-600 text-emerald-700"
                 : "border-transparent text-slate-500 hover:text-slate-700"
@@ -321,7 +321,7 @@ function LedgerContent() {
                     value={periodNote}
                     onChange={(e) => setPeriodNote(e.target.value)}
                     placeholder="e.g. পীরগাছা - জুলাই / ডিসেম্বর - ২০২৪"
-                    className="text-xs font-semibold px-3 py-2 border border-slate-300 rounded-lg w-64 bg-slate-50"
+                    className="text-xs font-semibold px-3 py-2 border border-slate-300 rounded-lg w-full sm:w-64 bg-slate-50"
                   />
                 </div>
               </div>
@@ -354,7 +354,7 @@ function LedgerContent() {
             </div>
 
             {/* Authentic Customer Ledger Sheet (Matches Image 1) */}
-            <div id="printable-customer-ledger" className="printable-ledger-sheet bg-white rounded-xl border border-slate-300 shadow-sm p-6 sm:p-8 print:p-0 print:m-0 print:border-none print:shadow-none text-slate-900 font-sans">
+            <div id="printable-customer-ledger" className="printable-ledger-sheet bg-white rounded-xl border border-slate-300 shadow-sm p-3.5 sm:p-8 print:p-0 print:m-0 print:border-none print:shadow-none text-slate-900 font-sans">
               {/* Top Handwritten Note Banner */}
               <div className="flex justify-center mb-2">
                 <span className="bg-amber-100 text-amber-950 font-bold px-6 py-1 rounded text-sm sm:text-base border border-amber-300 shadow-2xs font-serif">
@@ -405,7 +405,7 @@ function LedgerContent() {
                 </div>
               ) : (
                 <div className="overflow-x-auto mt-4">
-                  <table className="w-full text-xs border-collapse border border-slate-700">
+                  <table className="w-full text-xs border-collapse border border-slate-700 min-w-[780px]">
                     {/* Top Multi-Header */}
                     <thead>
                       <tr className="bg-slate-100 text-slate-900 font-bold border-b border-slate-700">
@@ -590,7 +590,7 @@ function LedgerContent() {
             </div>
 
             {/* Authentic Sales Officer Customer Ledger Sheet (Matches Image 2) */}
-            <div id="printable-officer-ledger" className="printable-ledger-sheet bg-white rounded-xl border border-slate-300 shadow-sm p-6 sm:p-8 print:p-0 print:m-0 print:border-none print:shadow-none text-slate-900 font-sans">
+            <div id="printable-officer-ledger" className="printable-ledger-sheet bg-white rounded-xl border border-slate-300 shadow-sm p-3.5 sm:p-8 print:p-0 print:m-0 print:border-none print:shadow-none text-slate-900 font-sans">
               {/* Title Header */}
               <div className="text-center mb-6">
                 <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
@@ -599,7 +599,7 @@ function LedgerContent() {
               </div>
 
               {/* Officer Metadata Header (Matches Image 2) */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pb-4 border-b border-slate-300 text-xs sm:text-sm font-medium">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pb-4 border-b border-slate-300 text-xs sm:text-sm font-medium">
                 <div className="space-y-1">
                   <div className="flex">
                     <span className="w-28 text-slate-600 font-bold">Officer Name:</span>
@@ -637,7 +637,7 @@ function LedgerContent() {
                 </div>
               ) : (
                 <div className="overflow-x-auto mt-4">
-                  <table className="w-full text-[11px] border-collapse border border-slate-700">
+                  <table className="w-full text-[11px] border-collapse border border-slate-700 min-w-[850px]">
                     <thead className="bg-slate-100 text-slate-900 font-bold border-b-2 border-slate-700">
                       <tr className="divide-x divide-slate-400">
                         <th className="py-2 px-2 text-center w-12">Code</th>

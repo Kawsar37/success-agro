@@ -134,7 +134,7 @@ export default function OrdersPage() {
           </div>
           <Link
             href="/orders/create"
-            className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-sm transition-colors flex items-center gap-2"
+            className="w-full sm:w-auto justify-center bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-sm transition-colors flex items-center gap-2"
           >
             <Plus className="w-4 h-4" />
             <span>Create New Order</span>
@@ -142,12 +142,12 @@ export default function OrdersPage() {
         </div>
 
         {/* Filter Toolbar */}
-        <div className="flex gap-2 bg-white p-2 rounded-xl border border-slate-200/80 shadow-xs">
+        <div className="flex gap-2 bg-white p-2 rounded-xl border border-slate-200/80 shadow-xs overflow-x-auto no-scrollbar flex-nowrap sm:flex-wrap">
           {["", "PENDING", "APPROVED", "REJECTED"].map((st) => (
             <button
               key={st}
               onClick={() => setStatusFilter(st)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors shrink-0 whitespace-nowrap ${
                 statusFilter === st
                   ? "bg-slate-900 text-white"
                   : "text-slate-600 hover:bg-slate-100"
@@ -166,7 +166,7 @@ export default function OrdersPage() {
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-xs text-left">
+              <table className="w-full text-xs text-left min-w-[750px]">
                 <thead className="bg-slate-50 text-slate-500 font-semibold uppercase border-b border-slate-100">
                   <tr>
                     <th className="py-3.5 px-4">Order #</th>
@@ -335,8 +335,8 @@ export default function OrdersPage() {
               </div>
 
               {/* Items Table */}
-              <div className="border border-slate-200 rounded-lg overflow-hidden">
-                <table className="w-full text-xs text-left">
+              <div className="border border-slate-200 rounded-lg overflow-x-auto">
+                <table className="w-full text-xs text-left min-w-[500px]">
                   <thead className="bg-slate-100 text-slate-700 font-bold uppercase border-b border-slate-200">
                     <tr>
                       <th className="py-2.5 px-3">#</th>
@@ -473,8 +473,8 @@ export default function OrdersPage() {
               </div>
 
               {/* Products Table with Editable Quantities */}
-              <div className="border border-slate-200 rounded-lg overflow-hidden">
-                <table className="w-full text-xs text-left">
+              <div className="border border-slate-200 rounded-lg overflow-x-auto">
+                <table className="w-full text-xs text-left min-w-[550px]">
                   <thead className="bg-slate-100 text-slate-700 font-bold uppercase border-b border-slate-200">
                     <tr>
                       <th className="py-2.5 px-3">Product Name</th>
@@ -556,11 +556,11 @@ export default function OrdersPage() {
               </div>
 
               {/* Modal Action Buttons */}
-              <div className="pt-3 border-t border-slate-200 flex flex-wrap justify-end gap-2">
+              <div className="pt-3 border-t border-slate-200 flex flex-col sm:flex-row justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setReviewOrder(null)}
-                  className="px-3.5 py-2 border border-slate-300 rounded-lg text-slate-600 hover:bg-slate-100 font-semibold"
+                  className="w-full sm:w-auto px-3.5 py-2 border border-slate-300 rounded-lg text-slate-600 hover:bg-slate-100 font-semibold text-center"
                 >
                   Cancel
                 </button>
@@ -574,7 +574,7 @@ export default function OrdersPage() {
                       discountAmount: editableDiscount,
                     })
                   }
-                  className="px-3.5 py-2 border border-emerald-300 bg-emerald-50 text-emerald-800 hover:bg-emerald-100 rounded-lg font-semibold flex items-center gap-1.5 disabled:opacity-50"
+                  className="w-full sm:w-auto px-3.5 py-2 border border-emerald-300 bg-emerald-50 text-emerald-800 hover:bg-emerald-100 rounded-lg font-semibold flex items-center justify-center gap-1.5 disabled:opacity-50"
                 >
                   <Edit3 className="w-3.5 h-3.5" />
                   <span>{saveQuantitiesMutation.isPending ? "Saving..." : "Save Quantities Only"}</span>
@@ -590,7 +590,7 @@ export default function OrdersPage() {
                       discountAmount: editableDiscount,
                     })
                   }
-                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold shadow-sm flex items-center gap-1.5 disabled:opacity-50"
+                  className="w-full sm:w-auto px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold shadow-sm flex items-center justify-center gap-1.5 disabled:opacity-50"
                 >
                   <CheckCircle className="w-4 h-4" />
                   <span>

@@ -17,9 +17,14 @@ import {
   Inbox,
   ArrowRight,
   Clock,
+  Menu,
 } from "lucide-react";
 
-export const Navbar: React.FC = () => {
+interface NavbarProps {
+  onToggleMobileMenu?: () => void;
+}
+
+export const Navbar: React.FC<NavbarProps> = ({ onToggleMobileMenu }) => {
   const { user, isAdmin } = useAuth();
   const queryClient = useQueryClient();
   const [isOpen, setIsOpen] = useState(false);
@@ -131,19 +136,29 @@ export const Navbar: React.FC = () => {
   };
 
   return (
-    <header className="h-16 bg-white border-b border-slate-200/80 px-8 flex items-center justify-between sticky top-0 z-30 shadow-xs">
-      <div className="flex items-center gap-6">
-        <div className="flex items-center gap-2 text-xs font-medium text-slate-500 bg-slate-100/80 px-3 py-1.5 rounded-full border border-slate-200">
-          <Calendar className="w-3.5 h-3.5 text-slate-400" />
-          <span>{today}</span>
+    <header className="h-16 bg-white border-b border-slate-200/80 px-3.5 sm:px-6 lg:px-8 flex items-center justify-between sticky top-0 z-30 shadow-xs">
+      <div className="flex items-center gap-2 sm:gap-6">
+        {/* Mobile Hamburger Toggle Button */}
+        <button
+          type="button"
+          onClick={onToggleMobileMenu}
+          className="lg:hidden p-2 -ml-1 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors focus:outline-none"
+          aria-label="Toggle navigation menu"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
+
+        <div className="flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs font-medium text-slate-500 bg-slate-100/80 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-slate-200">
+          <Calendar className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+          <span className="truncate max-w-[130px] sm:max-w-none">{today}</span>
         </div>
         <div className="hidden md:flex items-center gap-1.5 text-xs text-slate-500">
-          <MapPin className="w-3.5 h-3.5 text-emerald-600" />
+          <MapPin className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
           <span>Bogura Industrial Plant & National Distribution</span>
         </div>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2 sm:gap-4">
         {/* Notification Bell Menu (Admin Only) */}
         {isAdmin ? (
           <div className="relative" ref={dropdownRef}>
@@ -165,7 +180,7 @@ export const Navbar: React.FC = () => {
 
             {/* Notifications Popover Dropdown */}
             {isOpen && (
-              <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white rounded-xl shadow-xl border border-slate-200/90 overflow-hidden z-50 animate-in fade-in zoom-in-95 duration-100">
+              <div className="absolute right-0 mt-2 w-[calc(100vw-1.5rem)] sm:w-96 max-w-sm bg-white rounded-xl shadow-xl border border-slate-200/90 overflow-hidden z-50 animate-in fade-in zoom-in-95 duration-100">
                 {/* Header */}
                 <div className="p-3.5 bg-slate-50 border-b border-slate-100 flex items-center justify-between">
                   <div className="flex items-center gap-2">

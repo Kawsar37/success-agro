@@ -68,7 +68,7 @@ export default function InvoicesPage() {
           {!isDeliveryMan && (
             <Link
               href="/invoices/create"
-              className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-sm transition-colors flex items-center gap-2"
+              className="w-full sm:w-auto justify-center bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-sm transition-colors flex items-center gap-2"
             >
               <Plus className="w-4 h-4" />
               <span>Issue Direct Invoice</span>
@@ -84,7 +84,7 @@ export default function InvoicesPage() {
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-xs text-left">
+              <table className="w-full text-xs text-left min-w-[750px]">
                 <thead className="bg-slate-50 text-slate-500 uppercase font-semibold border-b border-slate-100">
                   <tr>
                     <th className="py-3.5 px-4">Invoice #</th>

@@ -32,7 +32,7 @@ export default function ReportsPage() {
           </div>
         ) : (
           <div className="space-y-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
               <StatCard
                 title="Gross Dispatched Sales"
                 value={formatBDT(finData?.totalSales || 0)}
@@ -62,7 +62,7 @@ export default function ReportsPage() {
             </div>
 
             {/* Financial Performance Table */}
-            <div className="bg-white rounded-xl border border-slate-200/80 shadow-sm p-6 space-y-4">
+            <div className="bg-white rounded-xl border border-slate-200/80 shadow-sm p-4 sm:p-6 space-y-4">
               <h3 className="text-base font-bold text-slate-800">Profit & Cash Flow Breakdown (Bangladesh BDT)</h3>
               <div className="space-y-3 text-sm">
                 <div className="flex justify-between py-2 border-b border-slate-100">
