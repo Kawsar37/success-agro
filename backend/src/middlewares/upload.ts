@@ -1,22 +1,36 @@
 import multer from "multer";
 import path from "path";
 import fs from "fs";
+import os from "os";
 import { Request } from "express";
 import { ApiError } from "../utils/apiError.js";
 
-const UPLOAD_ROOT = path.join(process.cwd(), "uploads", "receipts");
+// In serverless environments (e.g. Vercel, AWS Lambda), the deployment directory is strictly read-only.
+// /tmp (os.tmpdir()) is the only writable directory.
+const isServerless = !!process.env.VERCEL || !!process.env.AWS_LAMBDA_FUNCTION_NAME;
+const UPLOAD_ROOT = isServerless
+  ? path.join(os.tmpdir(), "uploads", "receipts")
+  : path.join(process.cwd(), "uploads", "receipts");
 
-// Ensure receipts upload directory exists
-if (!fs.existsSync(UPLOAD_ROOT)) {
-  fs.mkdirSync(UPLOAD_ROOT, { recursive: true });
+// Ensure receipts upload directory exists safely without crashing read-only runtimes
+try {
+  if (!fs.existsSync(UPLOAD_ROOT)) {
+    fs.mkdirSync(UPLOAD_ROOT, { recursive: true });
+  }
+} catch (e) {
+  // Gracefully continue in serverless read-only contexts
 }
 
 const storage = multer.diskStorage({
   destination: (_req: Request, _file: Express.Multer.File, cb) => {
-    if (!fs.existsSync(UPLOAD_ROOT)) {
-      fs.mkdirSync(UPLOAD_ROOT, { recursive: true });
+    try {
+      if (!fs.existsSync(UPLOAD_ROOT)) {
+        fs.mkdirSync(UPLOAD_ROOT, { recursive: true });
+      }
+      cb(null, UPLOAD_ROOT);
+    } catch (err: any) {
+      cb(err, UPLOAD_ROOT);
     }
-    cb(null, UPLOAD_ROOT);
   },
   filename: (_req: Request, file: Express.Multer.File, cb) => {
     const ext = path.extname(file.originalname).toLowerCase();

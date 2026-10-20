@@ -5,6 +5,7 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
 import path from "path";
+import os from "os";
 import { env } from "./config/env.js";
 import apiRouter from "./routes/index.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
@@ -19,7 +20,11 @@ app.use(
 );
 
 // Serve static uploaded files (bank receipts, slips, etc.)
-app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
+const isServerless = !!process.env.VERCEL || !!process.env.AWS_LAMBDA_FUNCTION_NAME;
+const uploadsDir = isServerless
+  ? path.join(os.tmpdir(), "uploads")
+  : path.join(process.cwd(), "uploads");
+app.use("/uploads", express.static(uploadsDir));
 
 // CORS configuration with explicit origins allowlist
 const allowedOrigins = [
