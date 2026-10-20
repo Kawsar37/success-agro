@@ -1,0 +1,10 @@
+{
+  "name": "success-agro-root",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Success Agro Management System ERP Monorepo",
+  "scripts": {
+    "dev:backend": "npm run dev --prefix backend",
+    "dev:frontend": "npm run dev --prefix frontend"
+  }
+}
