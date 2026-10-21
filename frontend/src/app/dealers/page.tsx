@@ -551,7 +551,7 @@ export default function DealersPage() {
                 <input
                   type="number"
                   min="0"
-                  step="1000"
+                  step="any"
                   value={newDealerForm.creditLimit}
                   onChange={(e) => setNewDealerForm({ ...newDealerForm, creditLimit: e.target.value })}
                   className="w-full text-xs p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none"
@@ -564,8 +564,7 @@ export default function DealersPage() {
                 </label>
                 <input
                   type="number"
-                  min="0"
-                  step="500"
+                  step="any"
                   value={newDealerForm.openingBalance}
                   onChange={(e) => setNewDealerForm({ ...newDealerForm, openingBalance: e.target.value })}
                   className="w-full text-xs p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none"
@@ -746,7 +745,7 @@ export default function DealersPage() {
                 <input
                   type="number"
                   min="0"
-                  step="1000"
+                  step="any"
                   value={editDealerForm.creditLimit}
                   onChange={(e) => setEditDealerForm({ ...editDealerForm, creditLimit: e.target.value })}
                   className="w-full text-xs p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none"
@@ -759,8 +758,7 @@ export default function DealersPage() {
                 </label>
                 <input
                   type="number"
-                  min="0"
-                  step="100"
+                  step="any"
                   value={editDealerForm.currentBalance}
                   onChange={(e) => setEditDealerForm({ ...editDealerForm, currentBalance: e.target.value })}
                   className="w-full text-xs p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none"
