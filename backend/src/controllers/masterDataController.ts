@@ -133,7 +133,7 @@ export const createDealer = async (req: AuthRequest, res: Response, next: NextFu
       if (defaultTerritory) {
         resolvedTerritory = defaultTerritory._id;
       } else {
-        const newTerritory = await Territory.create({ name: "Central Territory", region: "Bogura" });
+        const newTerritory = await Territory.create({ name: "Central Territory", region: "Bogura", district: "Bogura" });
         resolvedTerritory = newTerritory._id;
       }
     }

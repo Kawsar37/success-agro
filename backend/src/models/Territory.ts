@@ -14,8 +14,8 @@ export interface ITerritory extends Document {
 const territorySchema = new Schema<ITerritory>(
   {
     name: { type: String, required: true, trim: true, unique: true },
-    region: { type: String, required: true, trim: true },
-    district: { type: String, required: true, trim: true },
+    region: { type: String, required: true, trim: true, default: "General" },
+    district: { type: String, required: true, trim: true, default: "General" },
     thana: { type: String, trim: true },
     description: { type: String, trim: true },
     isActive: { type: Boolean, default: true },
