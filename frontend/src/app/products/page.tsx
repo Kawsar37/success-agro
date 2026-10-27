@@ -28,11 +28,19 @@ export default function ProductsPage() {
   const [editingProduct, setEditingProduct] = useState<any | null>(null);
 
   // Form state for adding new item
-  const [newProduct, setNewProduct] = useState({
+  const [newProduct, setNewProduct] = useState<{
+    name: string;
+    banglaName: string;
+    packSize: string;
+    cartonSize: string | number;
+    tradePrice: string;
+    mrp: string;
+    productCode: string;
+  }>({
     name: "",
     banglaName: "",
     packSize: "500 ml",
-    cartonSize: 20,
+    cartonSize: "20",
     tradePrice: "",
     mrp: "",
     productCode: "",
@@ -65,7 +73,7 @@ export default function ProductsPage() {
         name: "",
         banglaName: "",
         packSize: "500 ml",
-        cartonSize: 20,
+        cartonSize: "20",
         tradePrice: "",
         mrp: "",
         productCode: "",
@@ -312,7 +320,8 @@ export default function ProductsPage() {
                       type="number"
                       min="1"
                       value={newProduct.cartonSize}
-                      onChange={(e) => setNewProduct({ ...newProduct, cartonSize: Number(e.target.value) || 1 })}
+                      onChange={(e) => setNewProduct({ ...newProduct, cartonSize: e.target.value })}
+                      placeholder="e.g. 20"
                       className="w-full py-2 px-3 border border-slate-300 rounded-lg text-xs"
                     />
                   </div>

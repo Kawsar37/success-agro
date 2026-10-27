@@ -21,7 +21,7 @@ export default function OrdersPage() {
   // Review & Edit Modal State (Admin)
   const [reviewOrder, setReviewOrder] = useState<any | null>(null);
   const [editableItems, setEditableItems] = useState<any[]>([]);
-  const [editableDiscount, setEditableDiscount] = useState<number>(0);
+  const [editableDiscount, setEditableDiscount] = useState<number | string>(0);
 
   // View Details Modal State (Sales Officer & Admin)
   const [viewDetailsOrder, setViewDetailsOrder] = useState<any | null>(null);
@@ -123,15 +123,23 @@ export default function OrdersPage() {
     );
   };
 
-  const handleQuantityChange = (index: number, newQty: number) => {
-    const qty = Math.max(1, newQty);
+  const handleQuantityChange = (index: number, val: number | string) => {
     setEditableItems((prev) =>
       prev.map((item, idx) => {
         if (idx === index) {
+          if (val === "" || val === undefined) {
+            return {
+              ...item,
+              quantity: "",
+              totalAmount: 0,
+            };
+          }
+          const qty = Math.max(0, Number(val));
+          const safeQty = isNaN(qty) ? "" : qty;
           return {
             ...item,
-            quantity: qty,
-            totalAmount: item.unitPrice * qty,
+            quantity: safeQty,
+            totalAmount: (isNaN(qty) ? 0 : qty) * item.unitPrice,
           };
         }
         return item;
@@ -139,8 +147,8 @@ export default function OrdersPage() {
     );
   };
 
-  const computedSubtotal = editableItems.reduce((sum, item) => sum + item.totalAmount, 0);
-  const computedGrandTotal = Math.max(0, computedSubtotal - (editableDiscount || 0));
+  const computedSubtotal = editableItems.reduce((sum, item) => sum + (Number(item.totalAmount) || 0), 0);
+  const computedGrandTotal = Math.max(0, computedSubtotal - (Number(editableDiscount) || 0));
 
   return (
     <AppShell>
@@ -560,7 +568,7 @@ export default function OrdersPage() {
                           <div className="flex items-center justify-center gap-1">
                             <button
                               type="button"
-                              onClick={() => handleQuantityChange(idx, item.quantity - 1)}
+                              onClick={() => handleQuantityChange(idx, Math.max(1, (Number(item.quantity) || 1) - 1))}
                               className="w-6 h-6 rounded bg-slate-200 text-slate-800 font-bold hover:bg-slate-300 flex items-center justify-center text-sm"
                             >
                               -
@@ -569,12 +577,18 @@ export default function OrdersPage() {
                               type="number"
                               min="1"
                               value={item.quantity}
-                              onChange={(e) => handleQuantityChange(idx, Number(e.target.value))}
+                              onChange={(e) => handleQuantityChange(idx, e.target.value)}
+                              onBlur={() => {
+                                if (!item.quantity || Number(item.quantity) < 1) {
+                                  handleQuantityChange(idx, 1);
+                                }
+                              }}
+                              placeholder="1"
                               className="w-16 py-1 text-center font-bold text-slate-900 border border-slate-300 rounded focus:ring-2 focus:ring-emerald-500 text-xs"
                             />
                             <button
                               type="button"
-                              onClick={() => handleQuantityChange(idx, item.quantity + 1)}
+                              onClick={() => handleQuantityChange(idx, (Number(item.quantity) || 0) + 1)}
                               className="w-6 h-6 rounded bg-slate-200 text-slate-800 font-bold hover:bg-slate-300 flex items-center justify-center text-sm"
                             >
                               +
@@ -609,7 +623,11 @@ export default function OrdersPage() {
                     type="number"
                     min="0"
                     value={editableDiscount}
-                    onChange={(e) => setEditableDiscount(Number(e.target.value) || 0)}
+                    onChange={(e) => setEditableDiscount(e.target.value === "" ? "" : Math.max(0, Number(e.target.value)))}
+                    onBlur={() => {
+                      if (editableDiscount === "") setEditableDiscount(0);
+                    }}
+                    placeholder="0"
                     className="w-24 py-1 px-2 text-right border border-slate-300 rounded text-xs font-semibold"
                   />
                 </div>
@@ -634,8 +652,11 @@ export default function OrdersPage() {
                   onClick={() =>
                     saveQuantitiesMutation.mutate({
                       id: reviewOrder._id,
-                      items: editableItems,
-                      discountAmount: editableDiscount,
+                      items: editableItems.map((it) => ({
+                        ...it,
+                        quantity: Math.max(1, Number(it.quantity) || 1),
+                      })),
+                      discountAmount: Math.max(0, Number(editableDiscount) || 0),
                     })
                   }
                   className="w-full sm:w-auto px-3.5 py-2 border border-emerald-300 bg-emerald-50 text-emerald-800 hover:bg-emerald-100 rounded-lg font-semibold flex items-center justify-center gap-1.5 disabled:opacity-50"
@@ -650,8 +671,11 @@ export default function OrdersPage() {
                     updateStatusMutation.mutate({
                       id: reviewOrder._id,
                       status: "APPROVED",
-                      items: editableItems,
-                      discountAmount: editableDiscount,
+                      items: editableItems.map((it) => ({
+                        ...it,
+                        quantity: Math.max(1, Number(it.quantity) || 1),
+                      })),
+                      discountAmount: Math.max(0, Number(editableDiscount) || 0),
                     })
                   }
                   className="w-full sm:w-auto px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold shadow-sm flex items-center justify-center gap-1.5 disabled:opacity-50"

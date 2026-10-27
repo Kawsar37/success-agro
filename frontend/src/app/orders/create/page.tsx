@@ -17,7 +17,7 @@ interface OrderLineItem {
   productName: string;
   packSize: string;
   unitPrice: number;
-  quantity: number;
+  quantity: number | string;
   totalAmount: number;
 }
 
@@ -30,7 +30,7 @@ export default function CreateOrderPage() {
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [notes, setNotes] = useState("");
   const [items, setItems] = useState<OrderLineItem[]>([]);
-  const [discountAmount, setDiscountAmount] = useState<number>(0);
+  const [discountAmount, setDiscountAmount] = useState<number | string>(0);
 
   // Load Dealers
   const { data: dealers, isLoading: loadingDealers } = useQuery({
@@ -58,8 +58,9 @@ export default function CreateOrderPage() {
     const existingIdx = items.findIndex((i) => i.productId === productId);
     if (existingIdx >= 0) {
       const updated = [...items];
-      updated[existingIdx].quantity += 1;
-      updated[existingIdx].totalAmount = updated[existingIdx].quantity * updated[existingIdx].unitPrice;
+      const newQty = (Number(updated[existingIdx].quantity) || 0) + 1;
+      updated[existingIdx].quantity = newQty;
+      updated[existingIdx].totalAmount = newQty * updated[existingIdx].unitPrice;
       setItems(updated);
     } else {
       setItems([
@@ -76,11 +77,16 @@ export default function CreateOrderPage() {
     }
   };
 
-  const handleQuantityChange = (idx: number, qty: number) => {
-    if (qty < 1) return;
+  const handleQuantityChange = (idx: number, val: number | string) => {
     const updated = [...items];
-    updated[idx].quantity = qty;
-    updated[idx].totalAmount = qty * updated[idx].unitPrice;
+    if (val === "" || val === undefined) {
+      updated[idx].quantity = "";
+      updated[idx].totalAmount = 0;
+    } else {
+      const qty = Math.max(0, Number(val));
+      updated[idx].quantity = isNaN(qty) ? "" : qty;
+      updated[idx].totalAmount = (isNaN(qty) ? 0 : qty) * updated[idx].unitPrice;
+    }
     setItems(updated);
   };
 
@@ -88,8 +94,8 @@ export default function CreateOrderPage() {
     setItems(items.filter((_, i) => i !== idx));
   };
 
-  const subtotal = items.reduce((sum, i) => sum + i.totalAmount, 0);
-  const grandTotal = Math.max(0, subtotal - (discountAmount || 0));
+  const subtotal = items.reduce((sum, i) => sum + (Number(i.totalAmount) || 0), 0);
+  const grandTotal = Math.max(0, subtotal - (Number(discountAmount) || 0));
 
   const createOrderMutation = useMutation({
     mutationFn: async () => {
@@ -100,10 +106,10 @@ export default function CreateOrderPage() {
         dealerId: selectedDealerId,
         items: items.map((i) => ({
           productId: i.productId,
-          quantity: i.quantity,
+          quantity: Math.max(1, Number(i.quantity) || 1),
           unitPrice: i.unitPrice,
         })),
-        discountAmount,
+        discountAmount: Math.max(0, Number(discountAmount) || 0),
         deliveryAddress,
         notes,
       });
@@ -245,7 +251,13 @@ export default function CreateOrderPage() {
                               type="number"
                               min="1"
                               value={item.quantity}
-                              onChange={(e) => handleQuantityChange(idx, parseInt(e.target.value) || 1)}
+                              onChange={(e) => handleQuantityChange(idx, e.target.value)}
+                              onBlur={() => {
+                                if (!item.quantity || Number(item.quantity) < 1) {
+                                  handleQuantityChange(idx, 1);
+                                }
+                              }}
+                              placeholder="1"
                               className="w-20 py-1 px-2 border border-slate-300 rounded text-center text-xs font-bold"
                             />
                           </td>
@@ -302,7 +314,11 @@ export default function CreateOrderPage() {
                       type="number"
                       min="0"
                       value={discountAmount}
-                      onChange={(e) => setDiscountAmount(Number(e.target.value) || 0)}
+                      onChange={(e) => setDiscountAmount(e.target.value === "" ? "" : Math.max(0, Number(e.target.value)))}
+                      onBlur={() => {
+                        if (discountAmount === "") setDiscountAmount(0);
+                      }}
+                      placeholder="0"
                       className="w-24 py-1 px-2 border border-slate-300 rounded text-right text-xs"
                     />
                   )}
