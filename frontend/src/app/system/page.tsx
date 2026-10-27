@@ -143,19 +143,18 @@ export default function SystemPage() {
               </div>
             ) : (
               <div className="space-y-4 text-xs">
-                <div>
-                  <span className="text-slate-400 block uppercase font-medium flex items-center gap-1 mb-1">
-                    <Building2 className="w-3.5 h-3.5 text-slate-400" />
-                    Enterprise Name & Tagline
-                  </span>
-                  <span className="font-bold text-slate-900 text-sm block">
-                    {settings?.companyName || "Success Agro Limited"}
-                  </span>
-                  {settings?.tagline && (
-                    <span className="text-slate-500 italic block mt-0.5">
-                      {settings.tagline}
+                <div className="flex items-center gap-3.5 p-3 bg-slate-50 rounded-xl border border-slate-200/80">
+                  <div className="w-14 h-14 rounded-xl bg-white border border-slate-200 p-1 flex items-center justify-center shrink-0 shadow-2xs overflow-hidden">
+                    <img src="/logo.jpeg" alt="Success Agro Logo" className="w-full h-full object-contain" />
+                  </div>
+                  <div>
+                    <span className="font-bold text-slate-900 text-sm block">
+                      {settings?.companyName || "Success Agro Limited"}
                     </span>
-                  )}
+                    <span className="text-slate-500 text-xs block">
+                      {settings?.tagline || "Enterprise Agro-Manufacturing ERP"}
+                    </span>
+                  </div>
                 </div>
 
                 <div>

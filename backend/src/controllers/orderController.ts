@@ -245,11 +245,41 @@ export const updateOrderStatus = async (
       throw new ApiError(404, "Sales order not found");
     }
 
+    if (order.status === "CONVERTED") {
+      throw new ApiError(400, "Cannot change status of an order that has already been converted to an invoice.");
+    }
+
     if (!["APPROVED", "REJECTED", "CANCELLED"].includes(status)) {
       throw new ApiError(400, "Invalid status transition");
     }
 
     const wasPending = order.status === "PENDING";
+    const wasApproved = order.status === "APPROVED";
+
+    // Revert ledger balance if already approved and now being cancelled/rejected
+    if (wasApproved && (status === "CANCELLED" || status === "REJECTED")) {
+      const dealer = await Dealer.findById(order.dealer);
+      if (dealer) {
+        dealer.currentBalance = Math.max(0, dealer.currentBalance - order.totalAmount);
+        await dealer.save();
+
+        await LedgerEntry.create({
+          entityType: "DEALER",
+          dealer: dealer._id,
+          transactionType: "ADJUSTMENT",
+          referenceNumber: `${order.orderNumber}-CANCEL`,
+          invoiceNumber: order.orderNumber,
+          referenceId: (order._id as any).toString(),
+          date: new Date(),
+          description: `Sales Order #${order.orderNumber} ${status === "CANCELLED" ? "Cancelled" : "Rejected"} (Reversal)`,
+          debit: 0,
+          credit: order.totalAmount,
+          runningBalance: dealer.currentBalance,
+          isManual: false,
+          createdBy: req.user?._id,
+        });
+      }
+    }
 
     // If admin edited items right before or during approval:
     if (items && Array.isArray(items) && wasPending) {
@@ -326,8 +356,8 @@ export const updateOrderStatus = async (
           }
         }
       }
-    } else if (status === "REJECTED") {
-      order.rejectionReason = rejectionReason || "Rejected by administration";
+    } else if (status === "REJECTED" || status === "CANCELLED") {
+      order.rejectionReason = rejectionReason || (status === "CANCELLED" ? "Cancelled by admin" : "Rejected by administration");
     }
 
     await order.save();
@@ -356,6 +386,83 @@ export const updateOrderStatus = async (
       .populate("approvedBy", "name email");
 
     res.status(200).json(ApiResponse.success(populated, `Sales order status changed to ${status}`));
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const cancelOrder = async (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const order = await SalesOrder.findById(req.params.id);
+    if (!order) {
+      throw new ApiError(404, "Sales order not found");
+    }
+
+    if (order.status === "CONVERTED") {
+      throw new ApiError(400, "Cannot cancel an order that has already been converted to an invoice.");
+    }
+
+    if (order.status === "CANCELLED") {
+      throw new ApiError(400, "Sales order is already cancelled.");
+    }
+
+    const wasApproved = order.status === "APPROVED";
+    if (wasApproved) {
+      const dealer = await Dealer.findById(order.dealer);
+      if (dealer) {
+        dealer.currentBalance = Math.max(0, dealer.currentBalance - order.totalAmount);
+        await dealer.save();
+
+        await LedgerEntry.create({
+          entityType: "DEALER",
+          dealer: dealer._id,
+          transactionType: "ADJUSTMENT",
+          referenceNumber: `${order.orderNumber}-CANCEL`,
+          invoiceNumber: order.orderNumber,
+          referenceId: (order._id as any).toString(),
+          date: new Date(),
+          description: `Sales Order #${order.orderNumber} Cancelled (Reversal)`,
+          debit: 0,
+          credit: order.totalAmount,
+          runningBalance: dealer.currentBalance,
+          isManual: false,
+          createdBy: req.user?._id,
+        });
+      }
+    }
+
+    order.status = "CANCELLED";
+    order.rejectionReason = req.body.reason || "Cancelled by admin";
+    await order.save();
+
+    await logAuditEvent({
+      userId: (req.user?._id as any)?.toString(),
+      userName: req.user?.name,
+      action: "ORDER_CANCELLED",
+      module: "ORDERS",
+      targetId: order.orderNumber,
+      ipAddress: req.ip,
+    });
+
+    await createNotification({
+      title: `Order #${order.orderNumber} Cancelled`,
+      message: `Order #${order.orderNumber} was cancelled by ${req.user?.name || "Admin"}.`,
+      type: "ORDER_STATUS_CHANGED",
+      link: "/orders",
+      metadata: { orderId: order._id, orderNumber: order.orderNumber, status: "CANCELLED" },
+    });
+
+    const populated = await SalesOrder.findById(order._id)
+      .populate("dealer")
+      .populate("salesOfficer")
+      .populate("items.product")
+      .populate("approvedBy", "name email");
+
+    res.status(200).json(ApiResponse.success(populated, "Sales order cancelled successfully"));
   } catch (error) {
     next(error);
   }

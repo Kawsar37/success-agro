@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import api from "@/lib/api";
 import { toast } from "sonner";
-import { Sprout, Lock, Phone, ArrowRight, Eye, EyeOff } from "lucide-react";
+import { Lock, Phone, ArrowRight, Eye, EyeOff } from "lucide-react";
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -42,8 +42,8 @@ export default function LoginPage() {
     <div className="min-h-screen bg-slate-100 flex flex-col justify-center py-8 sm:py-12 px-3 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center">
-          <div className="w-14 h-14 rounded-2xl bg-emerald-600 flex items-center justify-center text-white shadow-lg shadow-emerald-900/20">
-            <Sprout className="w-8 h-8" />
+          <div className="w-20 h-20 rounded-2xl bg-white p-1.5 shadow-md shadow-emerald-950/10 border border-slate-200/90 flex items-center justify-center overflow-hidden">
+            <img src="/logo.jpeg" alt="Success Agro Logo" className="w-full h-full object-contain" />
           </div>
         </div>
         <h2 className="mt-4 text-center text-2xl font-bold tracking-tight text-slate-900">

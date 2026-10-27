@@ -21,7 +21,6 @@ import {
   UserCheck,
   BarChart3,
   Settings,
-  Sprout,
   LogOut,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -35,7 +34,7 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard, salesOfficerAllowed: true },
+  { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { label: "Sales Orders", href: "/orders", icon: ShoppingCart, salesOfficerAllowed: true },
   { label: "Dealers Network", href: "/dealers", icon: Users, salesOfficerAllowed: true },
   { label: "Dealer Ledger", href: "/ledger", icon: BookOpen },
@@ -85,8 +84,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
       {/* Brand Header */}
       <div className="p-4 sm:p-5 flex items-center justify-between border-b border-slate-800/80">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-emerald-600 flex items-center justify-center text-white shadow-md shadow-emerald-900/50 shrink-0">
-            <Sprout className="w-6 h-6" />
+          <div className="w-10 h-10 rounded-xl bg-white overflow-hidden flex items-center justify-center shadow-md shadow-emerald-950/60 shrink-0 p-1 border border-slate-700/60">
+            <img src="/logo.jpeg" alt="Success Agro Logo" className="w-full h-full object-contain" />
           </div>
           <div>
             <h1 className="font-bold text-white text-base leading-tight tracking-tight">SUCCESS AGRO</h1>

@@ -11,6 +11,11 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "Success Agro Management System",
   description: "Enterprise Agro-Manufacturing ERP for Bangladesh",
+  icons: {
+    icon: "/logo.jpeg",
+    shortcut: "/logo.jpeg",
+    apple: "/logo.jpeg",
+  },
 };
 
 export default function RootLayout({

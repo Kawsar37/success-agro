@@ -34,7 +34,7 @@ export default function OrdersPage() {
     },
   });
 
-  // Approve / Reject Mutation
+  // Approve / Reject / Cancel Mutation
   const updateStatusMutation = useMutation({
     mutationFn: async ({
       id,
@@ -43,11 +43,11 @@ export default function OrdersPage() {
       discountAmount,
     }: {
       id: string;
-      status: "APPROVED" | "REJECTED";
+      status: "APPROVED" | "REJECTED" | "CANCELLED";
       items?: any[];
       discountAmount?: number;
     }) => {
-      const res = await api.put(`/orders/${id}/status`, {
+      const res = await api.patch(`/orders/${id}/status`, {
         status,
         items,
         discountAmount,
@@ -60,13 +60,35 @@ export default function OrdersPage() {
       queryClient.invalidateQueries({ queryKey: ["dealers-ledger-summary"] });
       if (variables.status === "APPROVED") {
         toast.success("Order approved and automatically added to Dealer Customer Ledger!");
+      } else if (variables.status === "CANCELLED") {
+        toast.success("Sales order cancelled successfully!");
       } else {
         toast.success(`Order marked as ${variables.status}`);
       }
       setReviewOrder(null);
+      setViewDetailsOrder(null);
     },
     onError: (err: any) => {
       toast.error(err.response?.data?.message || "Failed to update order status");
+    },
+  });
+
+  // Dedicated Cancel Order Mutation
+  const cancelOrderMutation = useMutation({
+    mutationFn: async ({ id, reason }: { id: string; reason?: string }) => {
+      const res = await api.post(`/orders/${id}/cancel`, { reason });
+      return res.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["orders"] });
+      queryClient.invalidateQueries({ queryKey: ["dealer-ledger"] });
+      queryClient.invalidateQueries({ queryKey: ["dealers-ledger-summary"] });
+      toast.success("Sales order cancelled successfully!");
+      setReviewOrder(null);
+      setViewDetailsOrder(null);
+    },
+    onError: (err: any) => {
+      toast.error(err.response?.data?.message || "Failed to cancel sales order");
     },
   });
 
@@ -143,7 +165,7 @@ export default function OrdersPage() {
 
         {/* Filter Toolbar */}
         <div className="flex gap-2 bg-white p-2 rounded-xl border border-slate-200/80 shadow-xs overflow-x-auto no-scrollbar flex-nowrap sm:flex-wrap">
-          {["", "PENDING", "APPROVED", "REJECTED"].map((st) => (
+          {["", "PENDING", "APPROVED", "CANCELLED", "REJECTED"].map((st) => (
             <button
               key={st}
               onClick={() => setStatusFilter(st)}
@@ -230,6 +252,8 @@ export default function OrdersPage() {
                                   ? "success"
                                   : order.status === "PENDING"
                                   ? "warning"
+                                  : order.status === "CONVERTED"
+                                  ? "info"
                                   : "danger"
                               }
                             >
@@ -258,24 +282,44 @@ export default function OrdersPage() {
                                     <span>Edit & Approve</span>
                                   </button>
                                   <button
+                                    disabled={updateStatusMutation.isPending}
                                     onClick={() =>
                                       updateStatusMutation.mutate({ id: order._id, status: "APPROVED" })
                                     }
-                                    className="p-1.5 text-emerald-600 hover:bg-emerald-50 rounded"
+                                    className="p-1.5 text-emerald-600 hover:bg-emerald-50 rounded transition disabled:opacity-50"
                                     title="Quick Approve without changes"
                                   >
                                     <CheckCircle className="w-4 h-4" />
                                   </button>
                                   <button
-                                    onClick={() =>
-                                      updateStatusMutation.mutate({ id: order._id, status: "REJECTED" })
-                                    }
-                                    className="p-1.5 text-rose-600 hover:bg-rose-50 rounded"
-                                    title="Reject Order"
+                                    disabled={cancelOrderMutation.isPending}
+                                    onClick={() => {
+                                      if (window.confirm(`Are you sure you want to cancel Order #${order.orderNumber}?`)) {
+                                        cancelOrderMutation.mutate({ id: order._id });
+                                      }
+                                    }}
+                                    className="p-1.5 text-rose-600 hover:bg-rose-50 rounded transition disabled:opacity-50"
+                                    title="Cancel Sales Order"
                                   >
                                     <XCircle className="w-4 h-4" />
                                   </button>
                                 </>
+                              )}
+
+                              {!isSalesOfficer && order.status === "APPROVED" && (
+                                <button
+                                  disabled={cancelOrderMutation.isPending}
+                                  onClick={() => {
+                                    if (window.confirm(`Are you sure you want to cancel approved Order #${order.orderNumber}? This will revert the dealer ledger balance.`)) {
+                                      cancelOrderMutation.mutate({ id: order._id });
+                                    }
+                                  }}
+                                  className="px-2 py-1 text-[11px] font-semibold text-rose-700 bg-rose-50 hover:bg-rose-100 rounded border border-rose-200 flex items-center gap-1 transition disabled:opacity-50"
+                                  title="Cancel approved order and revert ledger balance"
+                                >
+                                  <XCircle className="w-3.5 h-3.5" />
+                                  <span>Cancel</span>
+                                </button>
                               )}
                             </div>
                           </td>
@@ -426,11 +470,31 @@ export default function OrdersPage() {
                 </div>
               )}
 
-              <div className="flex justify-end pt-3 border-t border-slate-200">
+              <div className="flex items-center justify-between pt-3 border-t border-slate-200 gap-2">
+                {!isSalesOfficer &&
+                  (viewDetailsOrder.status === "PENDING" || viewDetailsOrder.status === "APPROVED") && (
+                    <button
+                      type="button"
+                      disabled={cancelOrderMutation.isPending}
+                      onClick={() => {
+                        if (
+                          window.confirm(
+                            `Are you sure you want to cancel Order #${viewDetailsOrder.orderNumber}?`
+                          )
+                        ) {
+                          cancelOrderMutation.mutate({ id: viewDetailsOrder._id });
+                        }
+                      }}
+                      className="px-3.5 py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-300 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition disabled:opacity-50"
+                    >
+                      <XCircle className="w-4 h-4" />
+                      <span>{cancelOrderMutation.isPending ? "Cancelling..." : "Cancel Order"}</span>
+                    </button>
+                  )}
                 <button
                   type="button"
                   onClick={() => setViewDetailsOrder(null)}
-                  className="px-4 py-2 bg-slate-900 text-white rounded-lg text-xs font-semibold hover:bg-slate-800 transition"
+                  className="px-4 py-2 bg-slate-900 text-white rounded-lg text-xs font-semibold hover:bg-slate-800 transition ml-auto"
                 >
                   Close
                 </button>

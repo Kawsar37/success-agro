@@ -362,11 +362,23 @@ function LedgerContent() {
                 </span>
               </div>
 
-              {/* Title Header */}
-              <div className="text-center mb-6">
-                <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-                  Customer Ledger
-                </h2>
+              {/* Title Header with Official Logo */}
+              <div className="flex items-center justify-between border-b border-slate-200 pb-3 mb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-lg bg-white border border-slate-200 p-0.5 flex items-center justify-center shrink-0 shadow-2xs">
+                    <img src="/logo.jpeg" alt="Success Agro Logo" className="w-full h-full object-contain" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-black text-slate-900 tracking-tight leading-tight">SUCCESS AGRO LIMITED</h3>
+                    <p className="text-[11px] text-slate-500">Bogura Industrial Plant & National Distribution</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+                    Customer Ledger
+                  </h2>
+                  <span className="text-[11px] text-slate-500 font-medium">গ্রাহক খতিয়ান হিসাব বিবরণী</span>
+                </div>
               </div>
 
               {/* Customer Metadata Header Block (Matching Image 1) */}
@@ -591,11 +603,23 @@ function LedgerContent() {
 
             {/* Authentic Sales Officer Customer Ledger Sheet (Matches Image 2) */}
             <div id="printable-officer-ledger" className="printable-ledger-sheet bg-white rounded-xl border border-slate-300 shadow-sm p-3.5 sm:p-8 print:p-0 print:m-0 print:border-none print:shadow-none text-slate-900 font-sans">
-              {/* Title Header */}
-              <div className="text-center mb-6">
-                <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-                  Customer Ledger
-                </h2>
+              {/* Title Header with Official Logo */}
+              <div className="flex items-center justify-between border-b border-slate-200 pb-3 mb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-lg bg-white border border-slate-200 p-0.5 flex items-center justify-center shrink-0 shadow-2xs">
+                    <img src="/logo.jpeg" alt="Success Agro Logo" className="w-full h-full object-contain" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-black text-slate-900 tracking-tight leading-tight">SUCCESS AGRO LIMITED</h3>
+                    <p className="text-[11px] text-slate-500">Bogura Industrial Plant & National Distribution</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+                    Customer Ledger
+                  </h2>
+                  <span className="text-[11px] text-slate-500 font-medium">এস ও গ্রাহক খতিয়ান হিসাব</span>
+                </div>
               </div>
 
               {/* Officer Metadata Header (Matches Image 2) */}

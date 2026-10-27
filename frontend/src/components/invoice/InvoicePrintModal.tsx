@@ -39,13 +39,18 @@ export const InvoicePrintModal: React.FC<InvoicePrintModalProps> = ({
         <div className="border border-slate-200 rounded-lg p-3.5 sm:p-8 bg-white text-slate-800 print:border-0 print:p-0">
           {/* Header */}
           <div className="flex flex-col sm:flex-row justify-between items-start gap-4 border-b border-slate-200 pb-6">
-            <div>
-              <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">SUCCESS AGRO LIMITED</h1>
-              <p className="text-xs text-slate-500 mt-1">
-                Plot 42, BSCIC Industrial Estate, Bogura, Bangladesh
-              </p>
-              <p className="text-xs text-slate-500">Phone: +8801712345678 | Email: billing@successagro.com.bd</p>
-              <p className="text-xs font-semibold text-emerald-700 mt-1">BIN: 123456789-0101 (VAT Registered)</p>
+            <div className="flex items-center gap-3.5">
+              <div className="w-16 h-16 rounded-xl bg-white border border-slate-200 p-1 flex items-center justify-center shrink-0 shadow-2xs overflow-hidden">
+                <img src="/logo.jpeg" alt="Success Agro Logo" className="w-full h-full object-contain" />
+              </div>
+              <div>
+                <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">SUCCESS AGRO LIMITED</h1>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Plot 42, BSCIC Industrial Estate, Bogura, Bangladesh
+                </p>
+                <p className="text-xs text-slate-500">Phone: +8801712345678 | Email: billing@successagro.com.bd</p>
+                <p className="text-xs font-semibold text-emerald-700 mt-0.5">BIN: 123456789-0101 (VAT Registered)</p>
+              </div>
             </div>
             <div className="text-left sm:text-right">
               <span className="inline-block px-3 py-1 bg-emerald-50 text-emerald-800 font-bold text-sm rounded border border-emerald-200">

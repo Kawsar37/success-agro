@@ -148,6 +148,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleMobileMenu }) => {
           <Menu className="w-5 h-5" />
         </button>
 
+        {/* Mobile Brand Logo */}
+        <div className="lg:hidden flex items-center gap-2">
+          <div className="w-7 h-7 rounded-md bg-white border border-slate-200 overflow-hidden flex items-center justify-center p-0.5 shadow-2xs shrink-0">
+            <img src="/logo.jpeg" alt="Success Agro" className="w-full h-full object-contain" />
+          </div>
+          <span className="font-bold text-xs text-slate-800 tracking-tight hidden xs:inline">SUCCESS AGRO</span>
+        </div>
+
         <div className="flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs font-medium text-slate-500 bg-slate-100/80 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-slate-200">
           <Calendar className="w-3.5 h-3.5 text-slate-400 shrink-0" />
           <span className="truncate max-w-[130px] sm:max-w-none">{today}</span>
